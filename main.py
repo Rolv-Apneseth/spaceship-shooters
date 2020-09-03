@@ -17,12 +17,14 @@ def main_menu():
     while run:
         WIN.blit(spaceship_shooters.BG, (0, 0))
 
-        title_label = title_font.render("Welcome to Spaceship Shooters!", 1, TEXT_COLOUR)
-        middle = round(WIDTH/2 - title_label.get_width()/2)
+        title_label = title_font.render(
+            "Welcome to Spaceship Shooters!", 1, TEXT_COLOUR)
+        middle = round(WIDTH / 2 - title_label.get_width() / 2)
         WIN.blit(title_label, (middle, 200))
 
-        click_label = title_font.render("To begin the game, simply left click.", 1, TEXT_COLOUR)
-        middle = round(WIDTH/2 - click_label.get_width()/2)
+        click_label = title_font.render(
+            "To begin the game, simply left click.", 1, TEXT_COLOUR)
+        middle = round(WIDTH / 2 - click_label.get_width() / 2)
         WIN.blit(click_label, (middle, 300))
 
         pygame.display.update()
@@ -32,6 +34,7 @@ def main_menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 spaceship_shooters.game_loop(WIN)
     pygame.quit()
+
 
 if __name__ == "__main__":
     main_menu()
