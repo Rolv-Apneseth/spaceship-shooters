@@ -4,9 +4,6 @@ import pygame
 
 pygame.font.init()
 
-WIDTH, HEIGHT = 750, 750
-
-
 # LOAD ASSETS----------------------------------------------------------------------------------------------------------------------------------------------
 # ships
 RED_SHIP = pygame.image.load(os.path.join(
@@ -165,7 +162,7 @@ def move_player_lasers(player_lasers, vel, height, player_ship, enemies):
 
 
 # MAIN-----------------------------------------------------------------------------------------------------------------------------------------------
-def game_loop(window):
+def game_loop(window, width, height):
     run = True
     lost = False
     lost_count = 0
@@ -197,7 +194,7 @@ def game_loop(window):
         level_label = main_font.render(f"Level: {level}", 1, (255, 255, 255))
 
         window.blit(lives_label, (10, 10))
-        window.blit(level_label, (WIDTH - 10 - level_label.get_width(), 10))
+        window.blit(level_label, (width - 10 - level_label.get_width(), 10))
 
         for enemy in enemies:
             enemy.draw(window)
@@ -214,7 +211,7 @@ def game_loop(window):
             lost_label = lost_font.render("You lost!", 1, (255, 255, 255))
 
             window.blit(lost_label,
-                        round(WIDTH / 2 - lost_label.get_width() / 2, 350)
+                        round(width / 2 - lost_label.get_width() / 2, 350)
                         )
 
         pygame.display.update()
@@ -238,7 +235,7 @@ def game_loop(window):
             wave_length += 3
             for i in range(wave_length):
                 enemy = Enemy(random.randrange(
-                    50, WIDTH - 100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))
+                    50, width - 100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))
                 enemies.append(enemy)
 
         for event in pygame.event.get():
@@ -249,11 +246,11 @@ def game_loop(window):
         # Movement
         if keys[pygame.K_a] and player_ship.x - player_vel > 0:  # left
             player_ship.x -= player_vel
-        if keys[pygame.K_d] and player_ship.x + player_vel + player_ship.get_width() < WIDTH:  # right
+        if keys[pygame.K_d] and player_ship.x + player_vel + player_ship.get_width() < width:  # right
             player_ship.x += player_vel
         if keys[pygame.K_w] and player_ship.y - player_vel > 0:  # up
             player_ship.y -= player_vel
-        if keys[pygame.K_s] and player_ship.y + player_vel + player_ship.get_height() + 20 < HEIGHT:  # down
+        if keys[pygame.K_s] and player_ship.y + player_vel + player_ship.get_height() + 20 < height:  # down
             player_ship.y += player_vel
         if keys[pygame.K_SPACE]:
             player_ship.shoot(player_lasers)
@@ -269,12 +266,12 @@ def game_loop(window):
                 player_ship.health -= 10
                 enemies.remove(enemy)
 
-            if enemy.y + enemy.get_height() > HEIGHT:
+            if enemy.y + enemy.get_height() > height:
                 lives -= 1
                 enemies.remove(enemy)
 
         player_ship.cooldown()
 
-        move_enemy_lasers(enemy_lasers, laser_vel, HEIGHT, player_ship)
+        move_enemy_lasers(enemy_lasers, laser_vel, height, player_ship)
         move_player_lasers(player_lasers, -laser_vel,
-                           HEIGHT, player_ship, enemies)
+                           height, player_ship, enemies)
