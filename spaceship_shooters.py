@@ -59,9 +59,9 @@ class Laser():
         self.y += vel
 
     def off_screen(self, height):
-        """Returns wether the laser if off screen"""
+        """Returns whether the laser is off screen"""
 
-        return not(self.y < height and self.y >= 0)
+        return not(self.y < height and self.y >= -self.img.get_height())
 
     def collision(self, obj):
         return collide(obj, self)
@@ -323,6 +323,9 @@ def game_loop(window, width, height):
         # Goes to next level and increases how many enemies spawn each round after all enmies are killed
         if len(enemies) == 0:
             level += 1
+            # Player gets small heal after each round
+            if player_ship.health <= player_ship.max_health - 20:
+                player_ship.health += 20
             # Additional enemies to spawn next wave
             wave_length += 3
             for i in range(wave_length):
