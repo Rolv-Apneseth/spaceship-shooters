@@ -125,6 +125,11 @@ class Player(Ship):
     def health_bar(self, window):
         """Health bar for the player, achived via a red label under a green label which shrinks in size with player health"""
 
+        # Background
+        pygame.draw.rect(window, (192, 192, 192), (self.x - 5,
+                                                   self.y + self.ship_img.get_height() + 7.5,
+                                                   self.ship_img.get_height() + 10, 15
+                                                   ))
         # Red rectangle
         pygame.draw.rect(window, (255, 0, 0), (self.x,
                                                self.y + self.ship_img.get_height() + 10,
@@ -134,11 +139,22 @@ class Player(Ship):
         # Green rectangle
         pygame.draw.rect(window, (0, 255, 0), (self.x,
                                                round(
-                                                   self.y + self.ship_img.get_height() + 10),
+                                                   self.y + self.get_height() + 10),
                                                round(self.ship_img.get_height(
                                                ) * (self.health / self.max_health)),
                                                10
                                                ))
+        # Health Label
+        health_font = pygame.font.SysFont("arial", 10)
+        health_label = health_font.render(f"HP {self.health} / {self.max_health}",
+                                          1,
+                                          (0, 0, 0)
+                                          )
+        # Define x offset so that the health text always appear in the middle of the health bar
+        x_offset = self.get_height() // 2 - health_label.get_width() // 2
+        window.blit(health_label, (self.x + x_offset,
+                                   self.y + self.get_height() + health_label.get_height() // 1.5
+                                   ))
 
 
 class Enemy(Ship):
