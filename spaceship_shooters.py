@@ -163,9 +163,9 @@ class Enemy(Ship):
     def shoot(self, enemy_lasers):
         # Offset given because lasers will be spawned on the x of the enemy, but some enemy ships are wide so the laser would shoot
         # from the left side of the enemy ship, so the offset helps to bring it more centre for most ships
-        OFFSET = 20
+        offset = self.get_width() // 2 - self.laser_img.get_width() // 2
         if self.cooldown_counter == 0:
-            laser = Laser(self.x - OFFSET, self.y, self.laser_img)
+            laser = Laser(self.x + offset, self.y, self.laser_img)
             enemy_lasers.append(laser)
             self.cooldown_counter = 1
 
