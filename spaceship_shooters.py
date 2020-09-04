@@ -127,21 +127,21 @@ class Player(Ship):
 
         # Background
         pygame.draw.rect(window, (192, 192, 192), (self.x - 5,
-                                                   self.y + self.ship_img.get_height() + 7.5,
-                                                   self.ship_img.get_height() + 10, 15
+                                                   self.y + self.get_height() + 7.5,
+                                                   self.get_height() + 10,
+                                                   15
                                                    ))
         # Red rectangle
         pygame.draw.rect(window, (255, 0, 0), (self.x,
-                                               self.y + self.ship_img.get_height() + 10,
-                                               self.ship_img.get_height(), 10
+                                               self.y + self.get_height() + 10,
+                                               self.get_height(),
+                                               10
                                                ))
 
         # Green rectangle
         pygame.draw.rect(window, (0, 255, 0), (self.x,
-                                               round(
-                                                   self.y + self.get_height() + 10),
-                                               round(self.ship_img.get_height(
-                                               ) * (self.health / self.max_health)),
+                                               self.y + self.get_height() + 10,
+                                               self.get_height() * (self.health / self.max_health),
                                                10
                                                ))
         # Health Label
@@ -254,7 +254,7 @@ def game_loop(window, width, height):
     enemy_vel = 1
 
     # Instantiate player character
-    player_ship = Player(300, 630)
+    player_ship = Player(width // 2, height * 4 // 5)
 
     # To contain all lasers fired by the player
     player_lasers = []
@@ -270,12 +270,6 @@ def game_loop(window, width, height):
 
         # Show background
         window.blit(BG, (0, 0))
-        # Draw text labels
-        lives_label = main_font.render(f"Lives: {lives}", 1, (255, 255, 255))
-        level_label = main_font.render(f"Level: {level}", 1, (255, 255, 255))
-
-        window.blit(lives_label, (10, 10))
-        window.blit(level_label, (width - 10 - level_label.get_width(), 10))
 
         # Draw enemies
         for enemy in enemies:
@@ -290,6 +284,13 @@ def game_loop(window, width, height):
 
         for laser in player_lasers:
             laser.draw(window)
+
+        # Draw text labels
+        lives_label = main_font.render(f"Lives: {lives}", 1, (255, 255, 255))
+        level_label = main_font.render(f"Level: {level}", 1, (255, 255, 255))
+
+        window.blit(lives_label, (10, 10))
+        window.blit(level_label, (width - 10 - level_label.get_width(), 10))
 
         # Displays lost label
         if lost:
