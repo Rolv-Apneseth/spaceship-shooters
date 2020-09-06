@@ -229,12 +229,12 @@ def move_player_lasers(player_lasers, vel, height, player_ship, enemies):
 
 
 # MAIN-----------------------------------------------------------------------------------------------------------------------------------------------
-def game_loop(window, width, height):
+def game_loop(window, width, height, fps, mode):
     run = True
     lost = False
     lost_count = 0
     # Changes to the fps will drastically affect the speeds of objects
-    FPS = 60
+    FPS = fps
     level = 0
     # How many enemies can reach the bottom of the screen before the game ends
     lives = 5
@@ -252,9 +252,19 @@ def game_loop(window, width, height):
     wave_length = 0
     # How many pixels each enemy moves per frame
     enemy_vel = 1
-
     # Instantiate player character
     player_ship = Player(width // 2, height * 4 // 5)
+
+    # Change variables according to mode
+    if mode == "op":
+        lives = 100000000000
+        player_vel = 10
+        player_ship.max_health = 100000000000
+        player_ship.health = 100000000000
+        player_ship.COOLDOWN = 2
+
+        enemy_vel = 2
+        wave_length = 500
 
     # To contain all lasers fired by the player
     player_lasers = []
