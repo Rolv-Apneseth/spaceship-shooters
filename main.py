@@ -1,6 +1,7 @@
 import pygame
 
 import spaceship_shooters
+from buttons import Button
 
 pygame.font.init()
 
@@ -25,77 +26,9 @@ FPS = 60
 title_font = pygame.font.SysFont("arial", 40)
 button_font = pygame.font.SysFont("arial", 30)
 
-# Button class --------------------------------------------------------------------------------------------------------------------
+# Button functions ------------------------------------------------------------------------------------------------------------------
 
 
-class Button():
-    """Used to make buttons to put on display for pygame. A function must be defined for each button"""
-
-    def __init__(self, colour1, colour2, x, y, width, height, function, text, outline=None):
-        # Two colous since the colours alternate depending on whether the mouse
-        # is hovering over the button or not
-        self.colour1 = colour1
-        self.colour2 = colour2
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.text = text
-        # Function to be called when button.on_clicked() is called
-        self.function = function
-        # Colour of the outline of the button, if None then no outline will appear
-        self.outline = outline
-
-    def draw(self, win, font, xpos, ypos):
-        """Used to draw buttons onto the display each frame"""
-
-        # Draws an outline boax first if a colour was given
-        if self.outline:
-            extra_x = self.width // 40
-            extra_y = self.height // 20
-            pygame.draw.rect(win, self.outline,
-                             (self.x - extra_x, self.y - extra_y,
-                              self.width + extra_x * 2, self.height + extra_y * 2),
-                             0
-                             )
-
-        # If statement so that text and background colour for the button can alternate,
-        # depending on whether the mouse is hovering over the button
-        if self.is_selected(xpos, ypos):
-            pygame.draw.rect(win, self.colour2,
-                             (self.x, self.y, self.width, self.height),
-                             0
-                             )
-            text = font.render(self.text, 1, self.colour1)
-            win.blit(text, (self.x + self.width // 2 - text.get_width() // 2,
-                            self.y + self.height // 2 - text.get_height() // 2
-                            ))
-        else:
-            pygame.draw.rect(win, self.colour1,
-                             (self.x, self.y, self.width, self.height),
-                             0
-                             )
-            text = font.render(self.text, 1, self.colour2)
-            win.blit(text, (self.x + self.width // 2 - text.get_width() // 2,
-                            self.y + self.height // 2 - text.get_height() // 2
-                            ))
-
-    def is_selected(self, xpos, ypos):
-        """
-        Must be given the x and y positions of the mouse. Use pygame.mouse.get_pos().
-        Returns True if the mouse is hovering over the button.
-        """
-        if self.x < xpos < self.x + self.width:
-            if self.y < ypos < self.y + self.height:
-                return True
-        return False
-
-    def on_clicked(self):
-        """Calls the function given when the button was instantiated"""
-        self.function()
-
-
-# Specific button functions ------------------------------------------------------------------------------------------------------------------
 def open_game_loop():
     """Run main loop from spaceship_shooters.py in normal mode"""
 
@@ -107,8 +40,9 @@ def open_op_game_loop():
 
     spaceship_shooters.game_loop(WIN, WIDTH, HEIGHT, FPS, "op")
 
-
 # Main Function, opens the game's main menu ---------------------------------------------------------------------------------------------
+
+
 def main_menu():
     run = True
     # Clock used to force the program to run at given fps, otherwise the program would run at different speeds
@@ -118,14 +52,15 @@ def main_menu():
     # Variable to check if the left mouse button has been pressed
     clicked = False
 
-    # Contains the buttons, so they can be looped through in a for loop
+    # Will contain all the buttons, so they can be looped through in a for loop
     buttons = []
 
-    # Define the buttons
+    # DEFINE BUTTONS
+    # starts game in normal mode
     game_button = Button(BLACK,
                          WHITE,
                          WIDTH // 2 - WIDTH // 8,  # Removing half the width so it's in the middle
-                         HEIGHT * 3 // 10,
+                         HEIGHT * 4 // 10,
                          WIDTH // 4,
                          HEIGHT // 15,
                          open_game_loop,
@@ -134,10 +69,11 @@ def main_menu():
                          )
     buttons.append(game_button)
 
+    # starts the game in op mode
     op_button = Button(BLACK,
                        WHITE,
                        WIDTH // 2 - WIDTH // 6,  # Removing half the width so it's in the middle
-                       HEIGHT * 4 // 10,
+                       HEIGHT * 5 // 10,
                        WIDTH // 3,
                        HEIGHT // 15,
                        open_op_game_loop,
@@ -146,6 +82,20 @@ def main_menu():
                        )
     buttons.append(op_button)
 
+    # Exits the application
+    quit_button = Button(BLACK,
+                         WHITE,
+                         WIDTH // 2 - WIDTH // 8,  # Removing half the width so it's in the middle
+                         HEIGHT * 6 // 10,
+                         WIDTH // 4,
+                         HEIGHT // 15,
+                         quit,
+                         text='Exit Game',
+                         outline=SILVER
+                         )
+    buttons.append(quit_button)
+
+    # Main Menu Loop ---------------------------------------------------------------------------------------------------------------
     while run:
         clock.tick(FPS)
 
@@ -169,6 +119,7 @@ def main_menu():
             if button.is_selected(xpos, ypos):
                 if clicked:
                     button.on_clicked()
+
         # Reset the clicked value
         clicked = False
 
