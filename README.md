@@ -1,14 +1,28 @@
 # spaceship-shooters
- Simple game made with pygame, inspired by space invaders.
+ 2D game made with pygame, heavily inspired by space invaders.
 
-To begin playing, execute the main.py script and a pygame window will appear. Click on Start Game to begin.
+## What I learned
+* Making a game using pygame
+* Building a main menu ui
+* Importing assets to use for game models and background
+* Use of nested while loops
+* Use of OOP
 
-Enemy ships will fly from the top of the screen towars you and shoot lasers in your direction.
-Destroy enemy ships before they cross the bottom of the screen. You lose a life (top left of the screen)
-when an enemy crosses.
+## Installation
+1. Requires python 3.6+ to run. Python can be installed from [here](https://www.python.org/downloads/)
+2. Clone the repository by opening your command line/terminal and run: 
+```git clone https://github.com/Rolv-Apneseth/spaceship-shooters.git```
+    * Note: if you don't have git, it can be downloaded from [here](https://git-scm.com/downloads).
+3. Install the requirements for the program.
+    * In your terminal, navigate to the cloned directory and run: ```python3 -m pip install -r requirements.txt```
+4. To run the actual program, navigate further into the spaceship-shooter folder and run: ```python3 main.py```
+
+## Usage
+1. In the main menu, you select either start game or OP mode. (OP mode is an easy and exagerated game mode where 100s of enemies spawn but you are practically invincible)
+2. When in the game, use wasd to move and spacebar to shoot.
+
+Enemy ships will fly from the top of the screen towards you and shoot lasers in your direction. Destroy the enemy ships before they cross the bottom of the screenor you lose a life.
 
 You lose health both when you get shot by an enemy laser and when you collide with an enemy ship.
 
 The game is lost when you lose either all your health or all your lives.
-
-You can also play on OP mode, where you will have extremely buffed stats, and enemies will spawn in the hundreds.
