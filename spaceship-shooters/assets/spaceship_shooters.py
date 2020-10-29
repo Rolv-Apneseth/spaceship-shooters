@@ -1,5 +1,6 @@
-import random
 import os
+import random
+
 import pygame
 
 # Initialise pygame font, for making labels
@@ -7,41 +8,23 @@ pygame.font.init()
 
 # LOAD ASSETS----------------------------------------------------------------------------------------------------------------------------------------------
 # ships
-RED_SHIP = pygame.image.load(os.path.join("assets",
-                                          "pixel_ship_red_small.png"
-                                          ))
-GREEN_SHIP = pygame.image.load(os.path.join("assets",
-                                            "pixel_ship_green_small.png"
-                                            ))
-BLUE_SHIP = pygame.image.load(os.path.join("assets",
-                                           "pixel_ship_blue_small.png"
-                                           ))
+RED_SHIP = pygame.image.load(os.path.join("assets", "pixel_ship_red_small.png"))
+GREEN_SHIP = pygame.image.load(os.path.join("assets", "pixel_ship_green_small.png"))
+BLUE_SHIP = pygame.image.load(os.path.join("assets", "pixel_ship_blue_small.png"))
 # player
-YELLOW_SHIP = pygame.image.load(os.path.join("assets",
-                                             "pixel_ship_yellow.png"
-                                             ))
+YELLOW_SHIP = pygame.image.load(os.path.join("assets", "pixel_ship_yellow.png"))
 # lasers
-RED_LASER = pygame.image.load(os.path.join("assets",
-                                           "pixel_laser_red.png"
-                                           ))
-GREEN_LASER = pygame.image.load(os.path.join("assets",
-                                             "pixel_laser_green.png"
-                                             ))
-BLUE_LASER = pygame.image.load(os.path.join("assets",
-                                            "pixel_laser_blue.png"
-                                            ))
-YELLOW_LASER = pygame.image.load(os.path.join("assets",
-                                              "pixel_laser_yellow.png"
-                                              ))
+RED_LASER = pygame.image.load(os.path.join("assets", "pixel_laser_red.png"))
+GREEN_LASER = pygame.image.load(os.path.join("assets", "pixel_laser_green.png"))
+BLUE_LASER = pygame.image.load(os.path.join("assets", "pixel_laser_blue.png"))
+YELLOW_LASER = pygame.image.load(os.path.join("assets", "pixel_laser_yellow.png"))
 # Background
-BG = pygame.image.load(os.path.join("assets",
-                                    "background-space.png"
-                                    ))
+BG = pygame.image.load(os.path.join("assets", "background-space.png"))
 
 # CLASSES-------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-class Laser():
+class Laser:
     """Lasers shot by both the player and by enemy ships"""
 
     def __init__(self, x, y, img):
@@ -61,13 +44,13 @@ class Laser():
     def off_screen(self, height):
         """Returns whether the laser is off screen"""
 
-        return not(self.y < height and self.y >= -self.img.get_height())
+        return not (self.y < height and self.y >= -self.img.get_height())
 
     def collision(self, obj):
         return collide(obj, self)
 
 
-class Ship():
+class Ship:
     """Class to be inherited by both Enemy and Player"""
 
     # Define cooldown so that ships can't shoot more than once every 0.5 seconds (at 60fps)
@@ -126,35 +109,43 @@ class Player(Ship):
         """Health bar for the player, achived via a red label under a green label which shrinks in size with player health"""
 
         # Background
-        pygame.draw.rect(window, (192, 192, 192), (self.x - 5,
-                                                   self.y + self.get_height() + 7.5,
-                                                   self.get_height() + 10,
-                                                   15
-                                                   ))
+        pygame.draw.rect(
+            window,
+            (192, 192, 192),
+            (self.x - 5, self.y + self.get_height() + 7.5, self.get_height() + 10, 15),
+        )
         # Red rectangle
-        pygame.draw.rect(window, (255, 0, 0), (self.x,
-                                               self.y + self.get_height() + 10,
-                                               self.get_height(),
-                                               10
-                                               ))
+        pygame.draw.rect(
+            window,
+            (255, 0, 0),
+            (self.x, self.y + self.get_height() + 10, self.get_height(), 10),
+        )
 
         # Green rectangle
-        pygame.draw.rect(window, (0, 255, 0), (self.x,
-                                               self.y + self.get_height() + 10,
-                                               self.get_height() * (self.health / self.max_health),
-                                               10
-                                               ))
+        pygame.draw.rect(
+            window,
+            (0, 255, 0),
+            (
+                self.x,
+                self.y + self.get_height() + 10,
+                self.get_height() * (self.health / self.max_health),
+                10,
+            ),
+        )
         # Health Label
         health_font = pygame.font.SysFont("arial", 10)
-        health_label = health_font.render(f"HP {self.health} / {self.max_health}",
-                                          1,
-                                          (0, 0, 0)
-                                          )
+        health_label = health_font.render(
+            f"HP {self.health} / {self.max_health}", 1, (0, 0, 0)
+        )
         # Define x offset so that the health text always appear in the middle of the health bar
         x_offset = self.get_height() // 2 - health_label.get_width() // 2
-        window.blit(health_label, (self.x + x_offset,
-                                   self.y + self.get_height() + health_label.get_height() // 1.5
-                                   ))
+        window.blit(
+            health_label,
+            (
+                self.x + x_offset,
+                self.y + self.get_height() + health_label.get_height() // 1.5,
+            ),
+        )
 
 
 class Enemy(Ship):
@@ -164,7 +155,7 @@ class Enemy(Ship):
     COLOUR_MAP = {
         "red": (RED_SHIP, RED_LASER),
         "blue": (BLUE_SHIP, BLUE_LASER),
-        "green": (GREEN_SHIP, GREEN_LASER)
+        "green": (GREEN_SHIP, GREEN_LASER),
     }
 
     def __init__(self, x, y, colour, health=100):
@@ -187,6 +178,7 @@ class Enemy(Ship):
 
 
 # FUNCTIONS------------------------------------------------------------------------------------------------------------------------------------------
+
 
 def collide(obj1, obj2):
     """Returns boolean value based on wether the masks of 2 objects overlap, done using the overlap function from pygame.mask"""
@@ -306,9 +298,7 @@ def game_loop(window, width, height, fps, mode):
         if lost:
             lost_label = lost_font.render("You lost!", 1, (255, 255, 255))
 
-            window.blit(lost_label,
-                        (width // 2 - lost_label.get_width() // 2, 350)
-                        )
+            window.blit(lost_label, (width // 2 - lost_label.get_width() // 2, 350))
 
         # Updates the window so all changes are shown
         pygame.display.update()
@@ -340,8 +330,11 @@ def game_loop(window, width, height, fps, mode):
             wave_length += 3
             for i in range(wave_length):
                 # Spawns enemy at random x and y values, and with a random colour, so there are no patterns to be followed
-                enemy = Enemy(random.randrange(
-                    50, width - 100), random.randrange(-1500, -100), random.choice(["red", "blue", "green"]))
+                enemy = Enemy(
+                    random.randrange(50, width - 100),
+                    random.randrange(-1500, -100),
+                    random.choice(["red", "blue", "green"]),
+                )
                 enemies.append(enemy)
 
         # Allows program to be exited
@@ -353,11 +346,17 @@ def game_loop(window, width, height, fps, mode):
         # Movement, player moves with WASD
         if keys[pygame.K_a] and player_ship.x - player_vel > 0:  # left
             player_ship.x -= player_vel
-        if keys[pygame.K_d] and player_ship.x + player_vel + player_ship.get_width() < width:  # right
+        if (
+            keys[pygame.K_d]
+            and player_ship.x + player_vel + player_ship.get_width() < width
+        ):  # right
             player_ship.x += player_vel
         if keys[pygame.K_w] and player_ship.y - player_vel > 0:  # up
             player_ship.y -= player_vel
-        if keys[pygame.K_s] and player_ship.y + player_vel + player_ship.get_height() + 20 < height:  # down
+        if (
+            keys[pygame.K_s]
+            and player_ship.y + player_vel + player_ship.get_height() + 20 < height
+        ):  # down
             player_ship.y += player_vel
         if keys[pygame.K_SPACE]:
             player_ship.shoot(player_lasers)
@@ -384,5 +383,4 @@ def game_loop(window, width, height, fps, mode):
 
         # Move lasers
         move_enemy_lasers(enemy_lasers, laser_vel, height, player_ship)
-        move_player_lasers(player_lasers, -laser_vel,
-                           height, player_ship, enemies)
+        move_player_lasers(player_lasers, -laser_vel, height, player_ship, enemies)

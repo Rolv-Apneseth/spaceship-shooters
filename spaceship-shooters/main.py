@@ -40,6 +40,7 @@ def open_op_game_loop():
 
     spaceship_shooters.game_loop(WIN, WIDTH, HEIGHT, FPS, "op")
 
+
 # Main Function, opens the game's main menu ---------------------------------------------------------------------------------------------
 
 
@@ -57,42 +58,45 @@ def main_menu():
 
     # DEFINE BUTTONS
     # starts game in normal mode
-    game_button = Button(BLACK,
-                         WHITE,
-                         WIDTH // 2 - WIDTH // 8,  # Removing half the width so it's in the middle
-                         HEIGHT * 4 // 10,
-                         WIDTH // 4,
-                         HEIGHT // 15,
-                         open_game_loop,
-                         text='Start Game',
-                         outline=SILVER
-                         )
+    game_button = Button(
+        BLACK,
+        WHITE,
+        WIDTH // 2 - WIDTH // 8,  # Removing half the width so it's in the middle
+        HEIGHT * 4 // 10,
+        WIDTH // 4,
+        HEIGHT // 15,
+        open_game_loop,
+        text="Start Game",
+        outline=SILVER,
+    )
     buttons.append(game_button)
 
     # starts the game in op mode
-    op_button = Button(BLACK,
-                       WHITE,
-                       WIDTH // 2 - WIDTH // 6,  # Removing half the width so it's in the middle
-                       HEIGHT * 5 // 10,
-                       WIDTH // 3,
-                       HEIGHT // 15,
-                       open_op_game_loop,
-                       text='Play in OP mode',
-                       outline=SILVER
-                       )
+    op_button = Button(
+        BLACK,
+        WHITE,
+        WIDTH // 2 - WIDTH // 6,  # Removing half the width so it's in the middle
+        HEIGHT * 5 // 10,
+        WIDTH // 3,
+        HEIGHT // 15,
+        open_op_game_loop,
+        text="Play in OP mode",
+        outline=SILVER,
+    )
     buttons.append(op_button)
 
     # Exits the application
-    quit_button = Button(BLACK,
-                         WHITE,
-                         WIDTH // 2 - WIDTH // 8,  # Removing half the width so it's in the middle
-                         HEIGHT * 6 // 10,
-                         WIDTH // 4,
-                         HEIGHT // 15,
-                         quit,
-                         text='Exit Game',
-                         outline=SILVER
-                         )
+    quit_button = Button(
+        BLACK,
+        WHITE,
+        WIDTH // 2 - WIDTH // 8,  # Removing half the width so it's in the middle
+        HEIGHT * 6 // 10,
+        WIDTH // 4,
+        HEIGHT // 15,
+        quit,
+        text="Exit Game",
+        outline=SILVER,
+    )
     buttons.append(quit_button)
 
     # Main Menu Loop ---------------------------------------------------------------------------------------------------------------
@@ -103,13 +107,18 @@ def main_menu():
         WIN.blit(spaceship_shooters.BG, (0, 0))
 
         # Display title label
-        title_label = title_font.render("Welcome to Spaceship Shooters!",
-                                        1,
-                                        TEXT_COLOUR
-                                        )
-        WIN.blit(title_label, (WIDTH // 2 - title_label.get_width() // 2,  # So that the label is placed in the middle of the screen
-                               HEIGHT // 15
-                               ))
+        title_label = title_font.render(
+            "Welcome to Spaceship Shooters!", 1, TEXT_COLOUR
+        )
+        WIN.blit(
+            title_label,
+            (
+                WIDTH // 2
+                - title_label.get_width()
+                // 2,  # So that the label is placed in the middle of the screen
+                HEIGHT // 15,
+            ),
+        )
 
         # BUTTONS
         xpos, ypos = pygame.mouse.get_pos()
